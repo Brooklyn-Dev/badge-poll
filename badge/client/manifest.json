@@ -1,6 +1,6 @@
 {
-    "displayName": "Poll Server",
+    "displayName": "Poll Client",
     "logoPath": "logo.pbm",
     "permissions": [],
-    "appNumber": 23559
+    "appNumber": 23560
 }
