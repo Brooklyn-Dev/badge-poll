@@ -94,7 +94,7 @@ class App(badge.BaseApp):
             badge.display.nice_text("Running Poll", 0, 0, 32)
             for num in range(1, self.choice_count + 1):
                 badge.display.blit(CHOICE_IMAGES[num - 1], 2, num * 36 + 16)
-                badge.display.nice_text(f"Option {num}", 38, num * 36 + 23, 18)
+                badge.display.nice_text(f"Option {num}", 42, num * 36 + 23, 24)
                 badge.display.nice_text(
                     str(self.choice_totals[num - 1]), 170, num * 36 + 16, 32
                 )
@@ -102,7 +102,7 @@ class App(badge.BaseApp):
             badge.display.nice_text("Poll Results", 0, 0, 32)
             for num in range(1, self.choice_count + 1):
                 badge.display.blit(CHOICE_IMAGES[num - 1], 2, num * 36 + 16)
-                badge.display.nice_text(f"Option {num}", 38, num * 36 + 23, 18)
+                badge.display.nice_text(f"Option {num}", 42, num * 36 + 23, 24)
                 badge.display.nice_text(
                     str(self.choice_totals[num - 1]), 170, num * 36 + 16, 32
                 )
