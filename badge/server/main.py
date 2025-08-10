@@ -1,10 +1,14 @@
 import random
 import badge
 from badge.input import Buttons
+from internal_os.hardware.radio import Packet
+from internal_os.internalos import InternalOS
 
 STATE_IDLE = 0
 STATE_ACTIVE = 1
 STATE_RESULTS = 2
+
+internal_os = InternalOS.instance()
 
 
 class App(badge.BaseApp):
@@ -41,13 +45,13 @@ class App(badge.BaseApp):
                 self.id = random.getrandbits(8)
                 self.choice_totals = [0] * self.choice_count
                 self.should_update = True
-                badge.radio.send_packet(0xFFFF, bytes([1, self.id, self.choice_count]))
+                self.send_packet(0xFFFF, bytes([1, self.id, self.choice_count]))
         elif self.state == STATE_ACTIVE:
             # stop button
             if badge.input.get_button(Buttons.SW4):
                 self.state = STATE_RESULTS
                 self.should_update = True
-                badge.radio.send_packet(
+                self.send_packet(
                     0xFFFF, bytes([2, self.choice_count] + self.choice_totals)
                 )
         elif self.state == STATE_RESULTS:
@@ -97,3 +101,6 @@ class App(badge.BaseApp):
                 )
             badge.display.nice_text("SW12 = reset", 0, 200, 18)
         badge.display.show()
+
+    def send_packet(self, dest: int, data: bytes) -> None:
+        internal_os.radio._transmit_queue.append(Packet(dest, 23560, data))
