@@ -1,3 +1,4 @@
+import random
 import badge
 from badge.input import Buttons
 
@@ -9,12 +10,13 @@ STATE_RESULTS = 2
 class App(badge.BaseApp):
     def init(self) -> None:
         self.state = STATE_IDLE
+        self.id = None  # active
         self.choice_count = 2  # idle, active, results
         self.choice_totals = [0, 0]  # active, results
         self.should_update = True
+        random.seed()
 
     def on_open(self) -> None:
-        print("opened badge server")
         self.init()
 
     def loop(self) -> None:
@@ -36,15 +38,18 @@ class App(badge.BaseApp):
             # start button
             elif badge.input.get_button(Buttons.SW5):
                 self.state = STATE_ACTIVE
+                self.id = random.getrandbits(8)
                 self.choice_totals = [0] * self.choice_count
                 self.should_update = True
-                badge.radio.send_packet(0xFFFF, bytes([1, self.choice_count]))
+                badge.radio.send_packet(0xFFFF, bytes([1, self.id, self.choice_count]))
         elif self.state == STATE_ACTIVE:
             # stop button
             if badge.input.get_button(Buttons.SW4):
                 self.state = STATE_RESULTS
                 self.should_update = True
-                badge.radio.send_packet(0xFFFF, bytes([2] + self.choice_totals))
+                badge.radio.send_packet(
+                    0xFFFF, bytes([2, self.choice_count] + self.choice_totals)
+                )
         elif self.state == STATE_RESULTS:
             # reset button
             if badge.input.get_button(Buttons.SW12):
@@ -52,7 +57,19 @@ class App(badge.BaseApp):
                 self.should_update = True
 
     def on_packet(self, packet: badge.radio.Packet, in_foreground: bool) -> None:
-        return super().on_packet(packet, in_foreground)
+        if not in_foreground:
+            return
+        data = packet.data
+        if data[0] == 3:  # poll answer
+            if (
+                packet.dest != 0xFFFF
+                and self.state == STATE_ACTIVE
+                and data[1] == self.id
+            ):
+                choice = data[2]
+                if 1 <= choice <= self.choice_count:
+                    self.choice_totals[choice - 1] += 1
+                    self.should_update = True
 
     # display
 
