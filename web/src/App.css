@@ -108,3 +108,8 @@ input {
   fill: #09090b;
   transform: translateX(-0.4rem);
 }
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,6 +1,6 @@
-import { Circle, Triangle, Square, Star } from 'lucide-react'
+import { Circle, Triangle, Diamond, Square } from 'lucide-react'
 
-const icons = [Circle, Triangle, Square, Star]
+const icons = [Circle, Triangle, Diamond, Square]
 const colours = ['#f59e0b', '#ef4444', '#3b82f6', '#22c55e']
 
 interface PollItemProps {

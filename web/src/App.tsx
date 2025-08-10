@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Check, SquarePen, X } from 'lucide-react'
+import { Check, Minus, Plus, SquarePen, X } from 'lucide-react'
 import './App.css'
 import { PollItem } from './components/PollItem'
 
@@ -38,6 +38,26 @@ function App() {
     setEditPolls(prev => prev.map(poll =>
       poll.id === id ? { ...poll, title: newTitle } : poll
     ))
+  }
+
+  function addOption() {
+    console.log(editPolls.length)
+    if (editPolls.length >= 4) return;
+
+    const newOption = {
+      id: editPolls.length,
+      title: `Option ${editPolls.length + 1}`
+    }
+
+    setEditPolls(prev => [...prev, newOption])
+    setPolls(prev => [...prev, newOption])
+  }
+
+  function removeOption() {
+    if (editPolls.length <= 2) return;
+
+    setEditPolls(prev => prev.slice(0, -1))
+    setPolls(prev => prev.slice(0, -1))
   }
 
   const currentPolls = isEditing ? editPolls : polls;
@@ -82,12 +102,24 @@ function App() {
                 <X size={16} />
                 <span>Cancel</span>
               </button>
-            </>
+            </>    
           ) : (
-            <button onClick={handleEdit} className='control-btn'>
-              <SquarePen size={16} />
-              <span>Edit</span>
-            </button>
+            <>
+              <button onClick={handleEdit} className='control-btn'>
+                <SquarePen size={16} />
+                <span>Edit</span>
+              </button>
+              
+              <button onClick={addOption} className='control-btn' disabled={editPolls.length >= 4}>
+                <Plus size={16} />
+                <span>Add</span>
+              </button>
+              
+              <button onClick={removeOption} className='control-btn' disabled={editPolls.length <= 2}>
+                <Minus size={16} />
+                <span>Remove</span>
+              </button>
+            </>
           )}
         </div>
       </div>
