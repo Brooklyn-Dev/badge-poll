@@ -3,6 +3,11 @@ from badge.input import Buttons
 from internal_os.hardware.radio import Packet
 from internal_os.internalos import InternalOS
 
+CHOICE_IMAGES = [
+    badge.display.import_pbm(f'/apps/PollClient/{image}.pbm')
+    for image in ['circle', 'triangle', 'diamond', 'square']
+]
+
 STATE_IDLE = 0
 STATE_ACTIVE = 1
 STATE_RESULTS = 2
@@ -70,15 +75,17 @@ class App(badge.BaseApp):
         elif self.state == STATE_ACTIVE:
             badge.display.nice_text("Poll", 0, 0, 32)
             for num in range(1, self.choice_count + 1):
-                badge.display.nice_text(f"Option {num}", 0, num * 24 + 16, 18)
+                badge.display.blit(CHOICE_IMAGES[num - 1], 2, num * 36 + 16)
+                badge.display.nice_text(f"Option {num}", 42, num * 36 + 23, 24)
                 if self.voted == num:
-                    badge.display.rect(0, num * 24 + 13, 160, 24, 0)
+                    badge.display.rect(0, num * 36 + 14, 160, 36, 0)
         elif self.state == STATE_RESULTS:
             badge.display.nice_text("Poll Results", 0, 0, 32)
             for num in range(1, self.choice_count + 1):
-                badge.display.nice_text(f"Option {num}", 0, num * 24 + 16, 18)
+                badge.display.blit(CHOICE_IMAGES[num - 1], 2, num * 36 + 16)
+                badge.display.nice_text(f"Option {num}", 42, num * 36 + 23, 24)
                 badge.display.nice_text(
-                    str(self.choice_totals[num - 1]), 170, num * 24 + 16, 18
+                    str(self.choice_totals[num - 1]), 170, num * 36 + 16, 32
                 )
         badge.display.show()
 
