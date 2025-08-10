@@ -11,6 +11,11 @@ h1 {
   margin: 2rem 0 3rem 0;
 }
 
+h2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+
 h3 {
   font-size: 2.2rem;
   font-weight: 500;
@@ -21,6 +26,17 @@ h3 {
   margin:  0 auto;
   padding: 2rem;
   min-height: 100vh;
+}
+
+.main-title {
+  padding: 1rem;
+  font-family: inherit;
+  background: transparent;
+  margin: 1rem 0;
+}
+
+.main-title-input {
+  width: 100%;
 }
 
 .poll-items {
