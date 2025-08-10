@@ -4,7 +4,7 @@ import './App.css'
 import { PollItem } from './components/PollItem'
 
 function App() {
-  const [mainTitle, setMainTitle] = useState("Poll")
+  const [mainTitle, setMainTitle] = useState("Poll Title")
   const [polls, setPolls] = useState([
     { id: 0, title: 'Option 1'},
     { id: 1, title: 'Option 2'},

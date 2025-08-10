@@ -13,12 +13,21 @@ h1 {
 
 h2 {
   font-size: 2.8rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 h3 {
   font-size: 2.2rem;
   font-weight: 500;
+}
+
+input {
+  font: inherit;
+  background: transparent;
+  border: 1px solid #737373;
+  padding: 0 0.5rem;
+  border-radius: 5px;
+  border: 1px dashed;
 }
 
 .app-container {
@@ -36,6 +45,10 @@ h3 {
 }
 
 .main-title-input {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 2.8rem;
+  font-weight: 600;
   width: 100%;
 }
 
@@ -64,6 +77,12 @@ h3 {
   height: 32px;
 }
 
+.poll-item__input {
+  width: 100%;
+  font-size: 2.2rem;
+  padding: 0;
+}
+
 .poll-item__header {
   line-height: 1.4;
   white-space: normal;
@@ -81,4 +100,11 @@ h3 {
   cursor: pointer;
   background: none;
   border: none;
+  transition: all 0.2s;
+}
+
+.control-btn:hover {
+  color: #09090b;
+  fill: #09090b;
+  transform: translateX(-0.4rem);
 }
